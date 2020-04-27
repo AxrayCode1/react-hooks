@@ -21,7 +21,7 @@ const ingredientReducer = (currentIngredients, action) => {
 
 const Ingredients = () => {
   const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
-  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer} = useHttp();
+  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear} = useHttp();
   // const [userIngredients, setUserIngredients ] = useState([]);
   // const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState();
@@ -67,24 +67,7 @@ const Ingredients = () => {
       JSON.stringify(ingredient),
       ingredient,
       'ADD_INGREDIENT'    
-    );
-    // dispatchHttp({type: 'SEND'});    
-    // fetch('https://react-hooks-83319.firebaseio.com/ingredients.json',{
-    //   method: 'POST',
-    //   body: JSON.stringify(ingredient),
-    //   headers: { 'Content-Type' : 'application/json' }
-    // }).then( res => {
-    //   dispatchHttp({type: 'RESPONSE'});
-    //   return res.json();      
-    // }).then( responseData => {   
-    //   dispatch({type: 'ADD', ingredient:  { 
-    //     id: responseData.name, 
-    //     ...ingredient
-    //   }});         
-    // }).catch( err => {
-    //   dispatchHttp({type: 'ERROR', errorMessage: 'Something went wrong!'});
-    // });
-    
+    );        
   }, [sendRequest]);
 
   const removeIngredientHandler = useCallback(id =>{
@@ -97,10 +80,7 @@ const Ingredients = () => {
       'REMOVE_INGREDIENT'
     );
   },[sendRequest]);
-
-  const clearError = useCallback(() => {
-    // dispatchHttp({type: 'CLEAR'});
-  }, []);
+  
 
   const ingredientList = useMemo(() => {
     return (
@@ -111,7 +91,7 @@ const Ingredients = () => {
   // console.log(userIngredients);
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
       <IngredientForm onAddIngredient={addIngredientHandler} loading={isLoading}/>
       <section>
         <Search onLoadIngredients={filteredIngredientHandler}/>
